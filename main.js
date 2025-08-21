@@ -16,11 +16,14 @@ function sendMoves(board, websocket) {
 		if (column === undefined) {
 			return;
 		}
-		const event = {
-			type: "play",
-			column: parseInt(column, 10),
-		};
-		websocket.send(JSON.stringify(event));
+		const params = new URLSearchParams(window.location.search);
+		if (!params.has("watch")) {
+			const event = {
+				type: "play",
+				column: parseInt(column, 10),
+			};
+			websocket.send(JSON.stringify(event));
+		}
 	});
 }
 
@@ -30,6 +33,7 @@ function receiveMoves(board, websocket) {
 		switch (event.type) {
 			case "init":
 				document.querySelector(".join").href = "?join=" + event.join;
+				document.querySelector(".watch").href = "?watch=" + event.watch;
 				break;
 			case "play":
 				playMove(board, event.player, event.column, event.row);
@@ -56,9 +60,13 @@ function initGame(websocket) {
 		const params = new URLSearchParams(window.location.search);
 		let event = { type: "init" };
 		if (params.has("join")) {
-			event.join = params.get("join");
+      event.join = params.get("join");
+		} else if (params.has("watch")) {
+			event.watch = params.get("watch")
 		} else {
+
 		}
+
 		websocket.send(JSON.stringify(event));
 	});
 }
