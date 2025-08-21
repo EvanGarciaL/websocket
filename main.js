@@ -72,7 +72,7 @@ function initGame(websocket) {
 }
 
 function getWebSocketServer() {
-	if (window.location.host === "EvanGarciaL.github.io") {
+	if (window.location.host === "evangarcial.github.io") {
 		return "wss://total-jenni-evang-6ece9376.koyeb.app";
 	} else if (window.location.host === "localhost:8000" ) {
 		return "ws://localhost:8001/";
